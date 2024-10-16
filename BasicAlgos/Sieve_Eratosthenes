@@ -1,0 +1,21 @@
+void sieveOfEratosthenes(int limit) {
+    vector<bool> isPrime(limit + 1, true);
+    isPrime[0] = isPrime[1] = false;
+
+    for (int p = 2; p * p <= limit; p++) {
+        // If isPrime[p] is true, then p is a prime
+        if (isPrime[p]) {
+            // Update all multiples of p to non-prime
+            for (int i = p * p; i <= limit; i += p)
+                isPrime[i] = false;
+        }
+    }
+
+    // Print all prime numbers
+    cout << "Prime numbers up to " << limit << " are: ";
+    for (int p = 2; p <= limit; p++) {
+        if (isPrime[p])
+            cout << p << " ";
+    }
+    cout << endl;
+}
