@@ -1,0 +1,37 @@
+// LeetCode 1405
+
+class Solution {
+public:
+    string longestDiverseString(int a, int b, int c) {
+        priority_queue<pair<int,int>> pq;
+        if(a>0) pq.push({a,'a'});
+        if(b>0) pq.push({b,'b'});
+        if(c>0) pq.push({c,'c'});
+
+        string res="";
+        while(!pq.empty()) {
+            pair<int, char> pr = pq.top();
+            int c = pr.first;
+            char alpha = pr.second;
+            pq.pop();
+
+        if(res.size()>=2 && res[res.size()-1]==alpha && res[res.size()-2]==alpha) {
+                if(pq.empty()) break;
+                pair<int, char> temp = pq.top();
+                pq.pop();
+                res += temp.second;
+                if(temp.first - 1 > 0) {
+                    pq.push({temp.first - 1, temp.second});
+                }
+            }else {
+                c--;
+                res+=alpha;
+            }
+
+            if(c>0) {
+                pq.push({c, alpha});
+            }
+        }
+        return res;
+    }
+};
