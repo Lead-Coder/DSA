@@ -1,0 +1,22 @@
+2-D DP 
+Given a maze with obstacles find maximum no of ways a robot can reach its destination by moving either down or right from (0,0) to (m-1, n-1).
+
+class Solution {
+public:
+    int unique(vector<vector<int>>& ob, vector<vector<int>> &dp, int i, int j) {
+        if(i<0 || j<0 || ob[i][j]==1) return 0;
+        if(i==0 && j==0) return 1;
+        if(dp[i][j]!=-1) return dp[i][j];
+
+        int up = unique(ob, dp, i-1, j);
+        int left = unique(ob, dp, i, j-1);
+        return dp[i][j] = up+left;
+    }
+
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+        vector<vector<int>> dp(m, vector<int> (n, -1));
+        return unique(obstacleGrid, dp, m-1, n-1);
+    }
+};
