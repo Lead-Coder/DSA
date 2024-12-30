@@ -1,0 +1,32 @@
+Given a triangle array, return the minimum path sum from top to bottom.
+For each step, you may move to an adjacent number of the row below. 
+More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
+
+Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+Output: 11
+Explanation: The triangle looks like:
+   2
+  3 4
+ 6 5 7
+4 1 8 3
+The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
+
+class Solution {
+public:
+    int solve(vector<vector<int>>& dp, vector<vector<int>>& grid, int i, int j, int n) {
+        if(i==n-1) return grid[i][j];
+        if(dp[i][j]!=-1) return dp[i][j];
+
+        int down = grid[i][j] + solve(dp, grid, i+1, j, n);
+        int dr = grid[i][j] + solve(dp, grid, i+1, j+1, n);
+
+        return dp[i][j] = min(down, dr);
+    }
+    
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        int m = triangle[n-1].size();
+        vector<vector<int>> dp(n, vector<int> (m, -1));
+        return solve(dp, triangle, 0, 0, n);
+    }
+};
